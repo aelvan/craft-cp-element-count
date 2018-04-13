@@ -1,0 +1,16 @@
+.cpelementcount-pill {
+    background: rgba(0, 0, 0, 0.1);
+    display: inline-block;
+    height: 20px;
+    padding: 0 9px;
+    border-radius: 10px;
+    font-size: 10px;
+    line-height: 20px;
+    position: relative;
+    right: -8px;
+    opacity: 0.8;
+}
+
+a:hover .cpelementcount-pill {
+    opacity: 1;
+}

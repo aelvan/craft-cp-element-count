@@ -1,0 +1,40 @@
+{
+    "name": "aelvan/craft-cp-element-count",
+    "description": "Adds an element count to sections and categories in the Craft control panel",
+    "type": "craft-plugin",
+    "version": "1.0.0",
+    "keywords": [
+        "craft",
+        "cms",
+        "craftcms",
+        "craft-plugin",
+        "control-panel"
+    ],
+    "support": {
+        "docs": "https://github.com/aelvan/craft-cp-element-count/blob/master/README.md",
+        "issues": "https://github.com/aelvan/craft-cp-element-count/issues"
+    },
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "André Elvan",
+            "homepage": "https://www.vaersaagod.no/"
+        }
+    ],
+    "require": {
+        "craftcms/cms": "^3.0.0"
+    },
+    "autoload": {
+        "psr-4": {
+          "aelvan\\cpelementcount\\": "src/"
+        }
+    },
+    "extra": {
+        "name": "CP Element Count",
+        "handle": "cp-element-count",
+        "hasCpSettings": false,
+        "hasCpSection": false,
+        "changelogUrl": "https://raw.githubusercontent.com/aelvan/craft-cp-element-count/master/CHANGELOG.md",
+        "class": "aelvan\\cpelementcount\\CpElementCount"
+    }
+}

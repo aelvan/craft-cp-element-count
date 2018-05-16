@@ -33,6 +33,16 @@ $(document).ready(function () {
         getAssetsCount();
     }
 
+    function addCountToAnchor(val, $anchor) {
+        var $pill = $anchor.find('.cpelementcount-pill');
+
+        if ($pill.length === 0) {
+            $anchor.append('<span class="cpelementcount-pill">' + val + '</span>');
+        } else {
+            $pill.text(val);
+        }
+    }
+
     function getEntriesCount() {
         var slugs = getSectionSlugs();
 
@@ -42,7 +52,7 @@ $(document).ready(function () {
                     if (typeof result[val] !== 'undefined') {
                         var $anchor = $('#main-content.has-sidebar .sidebar li a[data-handle="' + val + '"]');
                         if ($anchor.length > 0) {
-                            $anchor.append('<span class="cpelementcount-pill">' + result[val] + '</span>')
+                            addCountToAnchor(result[val], $anchor);
                         }
                     }
                 });
@@ -51,7 +61,7 @@ $(document).ready(function () {
                     var $anchor = $('#main-content.has-sidebar .sidebar li a[data-key="*"]');
 
                     if ($anchor.length > 0) {
-                        $anchor.append('<span class="cpelementcount-pill">' + result['*'] + '</span>')
+                        addCountToAnchor(result['*'], $anchor);
                     }
                 }
             }
@@ -68,7 +78,7 @@ $(document).ready(function () {
                         var $anchor = $('#main-content.has-sidebar .sidebar li a[data-key="group:' + val + '"]');
 
                         if ($anchor.length > 0) {
-                            $anchor.append('<span class="cpelementcount-pill">' + result[val] + '</span>')
+                            addCountToAnchor(result[val], $anchor);
                         }
                     }
                 });
@@ -86,28 +96,28 @@ $(document).ready(function () {
                         var $anchor = $('#main-content.has-sidebar .sidebar li a[data-key="group:' + val + '"]');
 
                         if ($anchor.length > 0) {
-                            $anchor.append('<span class="cpelementcount-pill">' + result[val] + '</span>')
+                            addCountToAnchor(result[val], $anchor);
                         }
                     }
                 });
 
                 var $anchor = $('#main-content.has-sidebar .sidebar li a[data-key="*"]');
                 if ($anchor.length > 0) {
-                    $anchor.append('<span class="cpelementcount-pill">' + result['*'] + '</span>')
+                    addCountToAnchor(result['*'], $anchor);
                 }
 
                 var $anchor = $('#main-content.has-sidebar .sidebar li a[data-key="admins"]');
                 if ($anchor.length > 0) {
-                    $anchor.append('<span class="cpelementcount-pill">' + result['admins'] + '</span>')
+                    addCountToAnchor(result['admins'], $anchor);
                 }
 
             }
         );
     }
-    
+
     function getAssetsCount() {
         var folders = getFolders();
-        
+
         Craft.postActionRequest('cp-element-count/count/get-assets-count', {folders: folders},
             function (result) {
                 $.each(folders, function (i, val) {
@@ -115,19 +125,19 @@ $(document).ready(function () {
                         var $anchor = $('#main-content.has-sidebar .sidebar li a[data-key="folder:' + val.split('|').join('/folder:') + '"]');
 
                         if ($anchor.length > 0) {
-                            $anchor.append('<span class="cpelementcount-pill">' + result[val] + '</span>')
+                            addCountToAnchor(result[val], $anchor);                            
                         }
                     }
                 });
 
                 var $anchor = $('#main-content.has-sidebar .sidebar li a[data-key="*"]');
                 if ($anchor.length > 0) {
-                    $anchor.append('<span class="cpelementcount-pill">' + result['*'] + '</span>')
+                    addCountToAnchor(result['*'], $anchor);
                 }
 
                 var $anchor = $('#main-content.has-sidebar .sidebar li a[data-key="admins"]');
                 if ($anchor.length > 0) {
-                    $anchor.append('<span class="cpelementcount-pill">' + result['admins'] + '</span>')
+                    addCountToAnchor(result['admins'], $anchor);
                 }
 
             }

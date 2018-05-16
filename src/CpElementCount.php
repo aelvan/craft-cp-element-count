@@ -55,28 +55,40 @@ class CpElementCount extends Plugin
     {
         parent::init();
         self::$plugin = $this;
-        
+
         Craft::setAlias('@cpelementcount', __DIR__);
-        
+
         // Register services
         $this->setComponents([
             'count' => CountService::class,
         ]);
-        
-        // Register CP Asset bundle
+
         if (Craft::$app->getRequest()->getIsCpRequest()) {
-            Event::on(View::class, View::EVENT_BEFORE_RENDER_TEMPLATE,
-                function (TemplateEvent $event) {
-                    try {
-                        Craft::$app->getView()->registerAssetBundle(CpElementCountAssetBundle::class);
-                    } catch (InvalidConfigException $e) {
-                        Craft::error(
-                            'Error registering AssetBundle - '.$e->getMessage(),
-                            __METHOD__
-                        );
-                    }
+            Event::on(
+                Plugins::class,
+                Plugins::EVENT_AFTER_LOAD_PLUGINS,
+                function () {
+                    $this->addTemplateEvents();
                 }
             );
         }
+
+    }
+
+    private function addTemplateEvents()
+    {
+        // Register CP Asset bundle
+        Event::on(View::class, View::EVENT_BEFORE_RENDER_TEMPLATE,
+            function (TemplateEvent $event) {
+                try {
+                    Craft::$app->getView()->registerAssetBundle(CpElementCountAssetBundle::class);
+                } catch (InvalidConfigException $e) {
+                    Craft::error(
+                        'Error registering AssetBundle - ' . $e->getMessage(),
+                        __METHOD__
+                    );
+                }
+            }
+        );
     }
 }

@@ -1,8 +1,8 @@
 {
     "name": "aelvan/craft-cp-element-count",
-    "description": "Adds an element count to sections and categories in the Craft control panel",
+    "description": "Adds an element count to sections, categories, user groups and asset folders in the Craft control panel",
     "type": "craft-plugin",
-    "version": "1.0.0",
+    "version": "1.0.1",
     "keywords": [
         "craft",
         "cms",

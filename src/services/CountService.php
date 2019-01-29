@@ -9,11 +9,13 @@
 
 namespace aelvan\cpelementcount\services;
 
+use Craft;
 use craft\base\Component;
 use craft\elements\Asset;
 use craft\elements\Category;
 use craft\elements\Entry;
 use craft\elements\User;
+use craft\services\UserGroups;
 
 /**
  * CpElementCountService Service
@@ -24,17 +26,18 @@ use craft\elements\User;
  */
 class CountService extends Component
 {
-    public function getEntriesCount($slugs = []): array
+    public function getEntriesCount($uids = []): array
     {
-        if (count($slugs) === 0) {
+        if (count($uids) === 0) {
             return [];
         }
 
         $r = [];
 
-        foreach ($slugs as $slug) {
-            $count = Entry::find()->section($slug)->limit(null)->status(['disabled', 'enabled'])->count();
-            $r[$slug] = $count;
+        foreach ($uids as $uid) {
+            $section = Craft::$app->getSections()->getSectionByUid($uid);
+            $count = Entry::find()->sectionId($section->id)->limit(null)->status(['disabled', 'enabled'])->count();
+            $r[$uid] = $count;
         }
 
         $count = Entry::find()->limit(null)->status(['disabled', 'enabled'])->count();
@@ -43,33 +46,34 @@ class CountService extends Component
         return $r;
     }
 
-    public function getCategoriesCount($slugs = []): array
+    public function getCategoriesCount($uids = []): array
     {
-        if (count($slugs) === 0) {
+        if (count($uids) === 0) {
             return [];
         }
 
         $r = [];
 
-        foreach ($slugs as $slug) {
-            $count = Category::find()->groupId($slug)->limit(null)->status(['disabled', 'enabled'])->count();
-            $r[$slug] = $count;
+        foreach ($uids as $uid) {
+            $count = Category::find(['uid' => $uid])->limit(null)->status(['disabled', 'enabled'])->count();
+            $r[$uid] = $count;
         }
 
         return $r;
     }
 
-    public function getUsersCount($ids = []): array
+    public function getUsersCount($uids = []): array
     {
-        if (count($ids) === 0) {
+        if (count($uids) === 0) {
             return [];
         }
 
         $r = [];
 
-        foreach ($ids as $id) {
-            $count = User::find()->groupId($id)->limit(null)->status(null)->count();
-            $r[$id] = $count;
+        foreach ($uids as $uid) {
+            $group = Craft::$app->getUserGroups()->getGroupByUid($uid);
+            $count = User::find()->groupId($group->id)->limit(null)->status(null)->count();
+            $r[$uid] = $count;
         }
         
         $count = User::find()->limit(null)->status(null)->count();

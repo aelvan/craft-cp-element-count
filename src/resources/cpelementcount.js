@@ -44,13 +44,13 @@ $(document).ready(function () {
     }
 
     function getEntriesCount() {
-        var slugs = getSectionSlugs();
+        var uids = getSectionUids();
 
-        Craft.postActionRequest('cp-element-count/count/get-entries-count', {slugs: slugs},
+        Craft.postActionRequest('cp-element-count/count/get-entries-count', {uids: uids},
             function (result) {
-                $.each(slugs, function (i, val) {
+                $.each(uids, function (i, val) {
                     if (typeof result[val] !== 'undefined') {
-                        var $anchor = $('#main-content.has-sidebar .sidebar li a[data-handle="' + val + '"]');
+                        var $anchor = $('#main-content.has-sidebar .sidebar li a[data-key="section:' + val + '"]');
                         if ($anchor.length > 0) {
                             addCountToAnchor(result[val], $anchor);
                         }
@@ -69,11 +69,11 @@ $(document).ready(function () {
     }
 
     function getCategoriesCount() {
-        var ids = getGroupIds();
+        var uids = getGroupUids();
 
-        Craft.postActionRequest('cp-element-count/count/get-categories-count', {ids: ids},
+        Craft.postActionRequest('cp-element-count/count/get-categories-count', {uids: uids},
             function (result) {
-                $.each(ids, function (i, val) {
+                $.each(uids, function (i, val) {
                     if (typeof result[val] !== 'undefined') {
                         var $anchor = $('#main-content.has-sidebar .sidebar li a[data-key="group:' + val + '"]');
 
@@ -87,11 +87,11 @@ $(document).ready(function () {
     }
 
     function getUsersCount() {
-        var ids = getGroupIds();
+        var uids = getGroupUids();
 
-        Craft.postActionRequest('cp-element-count/count/get-users-count', {ids: ids},
+        Craft.postActionRequest('cp-element-count/count/get-users-count', {uids: uids},
             function (result) {
-                $.each(ids, function (i, val) {
+                $.each(uids, function (i, val) {
                     if (typeof result[val] !== 'undefined') {
                         var $anchor = $('#main-content.has-sidebar .sidebar li a[data-key="group:' + val + '"]');
 
@@ -122,7 +122,7 @@ $(document).ready(function () {
             function (result) {
                 $.each(folders, function (i, val) {
                     if (typeof result[val] !== 'undefined') {
-                        var $anchor = $('#main-content.has-sidebar .sidebar li a[data-key="folder:' + val.split('|').join('/folder:') + '"]');
+                        var $anchor = $('#main-content.has-sidebar .sidebar li a[data-folder-id="' + val + '"]');
 
                         if ($anchor.length > 0) {
                             addCountToAnchor(result[val], $anchor);                            
@@ -144,38 +144,37 @@ $(document).ready(function () {
         );
     }
 
-    function getSectionSlugs() {
-        var slugs = [];
+    function getSectionUids() {
+        var uids = [];
 
         $('#main-content.has-sidebar .sidebar li a[data-key]').each(function () {
-            if ($(this).data('key').match(/section:\d+/)) {
-                slugs.push($(this).data('handle'));
+            if ($(this).data('key').match(/section:/)) {
+                uids.push($(this).data('key').replace('section:', ''));
             }
         });
 
-        return slugs;
+        return uids;
     }
 
-    function getGroupIds() {
-        var ids = [];
+    function getGroupUids() {
+        var uids = [];
 
         $('#main-content.has-sidebar .sidebar li a[data-key]').each(function () {
-            if ($(this).data('key').match(/group:\d+/)) {
-                ids.push($(this).data('key').replace('group:', ''));
+            if ($(this).data('key').match(/group:/)) {
+                uids.push($(this).data('key').replace('group:', ''));
             }
         });
 
-        return ids;
+        return uids;
     }
 
     function getFolders() {
         var folders = [];
 
-        $('#main-content.has-sidebar .sidebar li a[data-key]').each(function () {
-            if ($(this).data('key').match(/folder:\d+/)) {
-                var folderKeys = $(this).data('key').split('/');
-                folders.push(folderKeys.join('|').replace(/folder:/g, ''));
-            }
+        $('#main-content.has-sidebar .sidebar li a[data-folder-id]').each(function () {
+                var folderKeys = $(this).data('folder-id');
+                folders.push(folderKeys);
+
         });
 
         return folders;

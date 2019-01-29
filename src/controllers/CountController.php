@@ -38,9 +38,9 @@ class CountController extends Controller
     {
         $config = Plugin::$plugin->getSettings();
         $request = Craft::$app->getRequest();
-        $slugs = $request->getParam('slugs', []);
+        $uids = $request->getParam('uids', []);
         
-        $counts = Plugin::$plugin->count->getEntriesCount($slugs);
+        $counts = Plugin::$plugin->count->getEntriesCount($uids);
         
         return $this->asJson($counts);
     }
@@ -49,9 +49,9 @@ class CountController extends Controller
     {
         $config = Plugin::$plugin->getSettings();
         $request = Craft::$app->getRequest();
-        $ids = $request->getParam('ids', []);
+        $uids = $request->getParam('uids', []);
         
-        $counts = Plugin::$plugin->count->getCategoriesCount($ids);
+        $counts = Plugin::$plugin->count->getCategoriesCount($uids);
         
         return $this->asJson($counts);
     }
@@ -60,9 +60,9 @@ class CountController extends Controller
     {
         $config = Plugin::$plugin->getSettings();
         $request = Craft::$app->getRequest();
-        $ids = $request->getParam('ids', []);
+        $uids = $request->getParam('uids', []);
         
-        $counts = Plugin::$plugin->count->getUsersCount($ids);
+        $counts = Plugin::$plugin->count->getUsersCount($uids);
         
         return $this->asJson($counts);
     }

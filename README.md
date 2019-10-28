@@ -1,5 +1,7 @@
 # CP Element Count plugin for Craft CMS 3.x
 
+**This plugin is no longer maintained.**
+
 Shows you the number of elements - Entries, Assets, Categories and Users - right
 there, in the control panel. 
 
